@@ -563,10 +563,10 @@ export const Landing: React.FC = () => {
               <>
                 <video
                   ref={videoRef}
-                  src="/videos/raahat-ad.mp4"
+                  src="/video/raahat-ad.mp4"
                   autoPlay muted={isMuted} loop playsInline
                   preload="metadata"
-                  onError={() => { console.warn('[RAAHAT] Video not found at /videos/raahat-ad.mp4'); setVideoError(true); }}
+                  onError={() => { console.warn('[RAAHAT] Video not found at /video/raahat-ad.mp4'); setVideoError(true); }}
                   style={{ width: '100%', maxHeight: '82vh', objectFit: 'cover', display: 'block' }}
                 />
                 <button
