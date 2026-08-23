@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAAHAT — AI-Powered Roadside Emergency & Assistance Navigator</title>
+  <meta name="description" content="Google Maps tells you what's nearby. RAAHAT tells you what to do next. An emergency intelligence layer that understands what happened on the road and guides you step by step — online and offline." />
+  <meta name="theme-color" content="#FBFAF7" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%91%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- Mile-marker rail (§0.5) -->
+<div class="rail" aria-hidden="true">
+  <div class="rail-track"></div>
+  <div class="rail-fill" id="railFill"></div>
+</div>
+<div class="progress-top" id="progressTop" aria-hidden="true"></div>
+
+<!-- ===================== NAV (§3.1) ===================== -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="brand"><span class="brand__mark" aria-hidden="true">🚑</span> RAAHAT</a>
+    <div class="nav__links">
+      <a class="nav__link" href="#problem">Problem</a>
+      <a class="nav__link" href="#features">Features</a>
+      <a class="nav__link" href="#how">How it works</a>
+      <a class="nav__link" href="#team">Team</a>
+      <a class="btn btn--primary btn--sm nav__cta" href="/app/dashboard">Open App →</a>
+    </div>
+  </div>
+</nav>
+
+<span id="top"></span>
+
+<!-- ===================== HERO (§3.2) ===================== -->
+<header class="hero" id="hero">
+  <div class="wrap">
+    <div class="shield">01</div>
+    <div class="hero__badge">SquidHack 2026 · Problem SW-17</div>
+    <h1 class="hero-h1">
+      <span class="rv" style="--rv-d:0ms"><span>Google Maps tells you</span></span>
+      <span class="rv" style="--rv-d:120ms"><span>what's nearby.</span></span>
+      <span class="rv" style="--rv-d:240ms"><span class="route">RAAHAT tells you what</span></span>
+      <span class="rv" style="--rv-d:360ms"><span class="route">to do next.</span></span>
+    </h1>
+    <p class="hero__sub">RAAHAT understands what happened to you on the road, decides what help you need, and guides you step by step — online and offline.</p>
+    <div class="hero__ctas">
+      <a class="btn btn--primary" href="#demo">Try Live Demo</a>
+      <a class="btn btn--outline" href="#how">How it works</a>
+    </div>
+  </div>
+
+  <!-- asphalt instrument bar (grounding device, full-bleed) -->
+  <div class="instrument" id="instrument">
+    <div class="instrument__inner">
+      <span class="instrument__label"><span class="dot pulse"></span><span id="sysLabel">SYSTEM STATUS</span></span>
+      <span class="instrument__sep"></span>
+      <span class="svc" id="svcList"></span>
+      <span class="instrument__lat" id="sysLat">LAT <b class="mono">— ms</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== PROBLEM (§3.3) ===================== -->
+<section class="section" id="problem">
+  <div class="wrap">
+    <div class="shield">02</div>
+    <div class="problem__grid">
+      <div class="reveal">
+        <span class="eyebrow">The real problem</span>
+        <p class="problem__quote" style="margin-top:18px">
+          Not <em>“where's the nearest mechanic”</em> — but <em>“I don't know what help I need or what to do next.”</em>
+        </p>
+        <p class="body" style="margin-top:22px">Maps can find a pin. They can't tell you whether it's an emergency, how serious it is, or what to do right now.</p>
+      </div>
+      <ul class="ledger reveal">
+        <li class="ledger__row">
+          <span class="ledger__idx">01</span>
+          <div class="ledger__main"><h3>Road accident + injury</h3><p>You need an ambulance and police — fast — and may be too shaken to think clearly.</p></div>
+          <span class="ledger__sev crit">Critical</span>
+        </li>
+        <li class="ledger__row">
+          <span class="ledger__idx">02</span>
+          <div class="ledger__main"><h3>Vehicle breakdown</h3><p>Engine dead on a flyover. Mechanic or towing — and who's actually reachable?</p></div>
+          <span class="ledger__sev med">Medium</span>
+        </li>
+        <li class="ledger__row">
+          <span class="ledger__idx">03</span>
+          <div class="ledger__main"><h3>Tyre puncture</h3><p>High-speed traffic, no shoulder. Safety-first steps matter more than a pin.</p></div>
+          <span class="ledger__sev med">Medium</span>
+        </li>
+        <li class="ledger__row">
+          <span class="ledger__idx">04</span>
+          <div class="ledger__main"><h3>Fuel emergency</h3><p>Tank dry kilometres from the next pump. The nearest reliable point, ranked.</p></div>
+          <span class="ledger__sev med">Medium</span>
+        </li>
+        <li class="ledger__row">
+          <span class="ledger__idx">05</span>
+          <div class="ledger__main"><h3>Stranded at night</h3><p>Unfamiliar area, low visibility, rising fear. Trusted help and a calm next step.</p></div>
+          <span class="ledger__sev crit">High</span>
+        </li>
+        <li class="ledger__row">
+          <span class="ledger__idx">06</span>
+          <div class="ledger__main"><h3>Low / no connectivity</h3><p>No signal, no data. A live map is useless — guidance must survive offline.</p></div>
+          <span class="ledger__sev low">Resilience</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOLUTION (§3.4) ===================== -->
+<section class="section section--alt" id="solution">
+  <div class="wrap">
+    <div class="shield">03</div>
+    <div class="reveal">
+      <span class="eyebrow">What RAAHAT is</span>
+      <p class="flow" style="margin-top:22px">
+        What happened <span class="arr">→</span> how serious <span class="arr">→</span> what help <span class="arr">→</span> who's nearest <span class="arr">→</span> <span class="h">what to do now</span>
+      </p>
+      <p class="solution__note">RAAHAT is an <b>emergency intelligence layer on top of Google Maps / OSM</b> — not a map replacement.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LIVE DEMO (§3.5) ===================== -->
+<section class="section section--asphalt console" id="demo">
+  <div class="wrap console__inner">
+    <div class="shield">04</div>
+    <div class="reveal">
+      <div class="console__head">
+        <span class="eyebrow eyebrow--route" style="color:var(--on-asphalt-faint)">Live · real data</span>
+        <span class="console__rule"></span>
+        <span class="console__title">CONSOLE — /api/v1/emergency-assistance</span>
+      </div>
+      <h2 class="h2" style="max-width:16ch">See it work — right now.</h2>
+      <p class="body" style="margin-top:14px;max-width:54ch">Describe what happened. RAAHAT classifies the incident, assesses severity, finds and ranks the nearest real services, and tells you what to do next. No mockups — every result is fetched live.</p>
+    </div>
+
+    <div class="reveal" style="margin-top:34px">
+      <form class="demobar" id="demoForm" autocomplete="off">
+        <input id="demoInput" type="text" placeholder="DESCRIBE WHAT HAPPENED_" maxlength="2000" aria-label="Describe your emergency" required />
+        <button class="btn btn--primary" type="submit" id="demoSubmit">Get help</button>
+      </form>
+      <div class="chips" id="demoChips">
+        <button class="chip" type="button" data-text="My tyre got punctured on the highway.">tyre puncture on highway</button>
+        <button class="chip" type="button" data-text="Accident hua hai aur khoon nikal raha hai">accident hua hai, khoon nikal raha hai</button>
+        <button class="chip" type="button" data-text="My car broke down">my car broke down</button>
+        <button class="chip" type="button" data-text="I'm out of fuel">I'm out of fuel</button>
+      </div>
+      <div class="demometa">
+        <span>LOC <b id="demoLoc">acquiring…</b></span>
+        <span>NET <b id="demoNet">ONLINE</b></span>
+        <span id="demoSession"></span>
+      </div>
+    </div>
+
+    <div class="stage" id="demoStage">
+      <div class="stage__empty">// awaiting input — describe your situation and press GET HELP<span class="blink"></span></div>
+    </div>
+
+    <p class="caption" id="demoCaption" style="display:none"><span class="c">//</span> Live data from real providers</p>
+  </div>
+</section>
+
+<!-- ===================== FEATURES (§3.6) ===================== -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="shield">05</div>
+    <div class="section-head reveal">
+      <span class="eyebrow">Capabilities</span>
+      <h2 class="h2" style="margin-top:18px">What RAAHAT adds on top of maps.</h2>
+    </div>
+    <div class="featgrid reveal">
+      <div class="feat"><div class="feat__idx">01</div><div class="feat__ico">🧠</div><h3 class="feat__title">Situation-aware decision engine</h3><p class="feat__desc">Classifies what happened and how serious it is before recommending anything — act on understanding, not a pin drop.</p></div>
+      <div class="feat"><div class="feat__idx">02</div><div class="feat__ico">🎙️</div><h3 class="feat__title">Voice-first, multilingual</h3><p class="feat__desc">English / Hindi, with Hinglish handled at the classification layer. Built on Sarvam STT/TTS.</p></div>
+      <div class="feat"><div class="feat__idx">03</div><div class="feat__ico">📴</div><h3 class="feat__title">Route-aware OFFLINE safety pack</h3><p class="feat__desc">Works with no internet: cached GPS-local services, cached guidance, on-device AI (Gemma) and offline RAG.</p></div>
+      <div class="feat"><div class="feat__idx">04</div><div class="feat__ico">🤝</div><h3 class="feat__title">Agentic assistance</h3><p class="feat__desc">With explicit permission, RAAHAT can contact a provider on your behalf — every action confirms first.</p></div>
+      <div class="feat"><div class="feat__idx">05</div><div class="feat__ico">✅</div><h3 class="feat__title">Verified guidance, never fabricated</h3><p class="feat__desc">Every recommendation shows its source. Unknown availability is always shown as unknown — never guessed.</p></div>
+      <div class="feat"><div class="feat__idx">06</div><div class="feat__ico">🛡️</div><h3 class="feat__title">Multi-source resilience</h3><p class="feat__desc">Google Places is the primary live source; cached or OSM-derived data can back it up without changing the UI contract.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW IT WORKS (§3.7) ===================== -->
+<section class="section section--alt" id="how">
+  <div class="wrap">
+    <div class="shield">06</div>
+    <div class="section-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2 class="h2" style="margin-top:18px">From panic to a plan, in four.</h2>
+    </div>
+    <div class="steps reveal">
+      <div class="step"><div class="step__shield">1</div><h3 class="step__title">Tell RAAHAT what happened</h3><p class="step__desc">Type or speak — English, Hindi or Hinglish. One rough sentence is enough.</p></div>
+      <div class="step"><div class="step__shield">2</div><h3 class="step__title">It classifies severity + needs</h3><p class="step__desc">Incident type, severity and confidence — grounded guidance and exact services.</p></div>
+      <div class="step"><div class="step__shield">3</div><h3 class="step__title">Finds & ranks real services</h3><p class="step__desc">Live providers, ranked with a stated reason — distance, category, source on every card.</p></div>
+      <div class="step"><div class="step__shield">4</div><h3 class="step__title">You CALL / NAVIGATE / follow guidance</h3><p class="step__desc">Clear next actions with confirmation for anything safety-critical. You're moving again.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OFFLINE USP (§3.8) ===================== -->
+<section class="section" id="offline">
+  <div class="wrap">
+    <div class="shield">07</div>
+    <div class="reveal" style="margin-bottom:44px">
+      <span class="eyebrow eyebrow--route">Offline USP</span>
+      <p class="offline__quote" style="margin-top:18px">Plan Indore → Bhopal. Download the safety pack. Lose connectivity. <span class="r">RAAHAT still works.</span></p>
+    </div>
+    <ul class="offline__list reveal">
+      <li class="offline__row">
+        <span class="offline__idx">01</span>
+        <div>
+          <h3>Prepare the route-aware pack</h3>
+          <p>Before you leave, RAAHAT caches everything for the corridor:</p>
+          <div class="offline__meta"><span class="offtag">Hospitals</span><span class="offtag">Police</span><span class="offtag">Mechanics</span><span class="offtag">Puncture</span><span class="offtag">Towing</span><span class="offtag">Emergency contacts</span><span class="offtag">Guidance</span></div>
+        </div>
+      </li>
+      <li class="offline__row">
+        <span class="offline__idx">02</span>
+        <div>
+          <h3>Connectivity drops</h3>
+          <p>Mid-journey, the signal vanishes. A live map would go dark — RAAHAT keeps the same experience running.</p>
+          <div class="offline__meta"><span class="offtag warn">No signal</span></div>
+        </div>
+      </li>
+      <li class="offline__row">
+        <span class="offline__idx">03</span>
+        <div>
+          <h3>GPS + local DB + Gemma + offline RAG</h3>
+          <p>On-device AI and offline retrieval keep producing the same guidance and service cards — each entry clearly marked with its last-synced timestamp.</p>
+          <div class="offline__meta"><span class="offtag mono-amber">🕒 Last synced · shown per card</span></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TEAM (§3.9) ===================== -->
+<section class="section section--alt" id="team">
+  <div class="wrap">
+    <div class="shield">08</div>
+    <div class="section-head reveal">
+      <span class="eyebrow">Team Solution Savvy</span>
+      <h2 class="h2" style="margin-top:18px">Built by.</h2>
+    </div>
+    <ul class="teamlist reveal">
+      <li class="teamrow">
+        <span class="teamrow__idx">01</span>
+        <span class="teamrow__name">Satwik Misra</span>
+        <span class="teamrow__role">Backend / FastAPI · AI development · RAG · LLM orchestration · Sarvam voice (STT/TTS) · voice agent.</span>
+      </li>
+      <li class="teamrow">
+        <span class="teamrow__idx">02</span>
+        <span class="teamrow__name">Santosh Ray</span>
+        <span class="teamrow__role">React frontend · backend / API support · integration · deployment.</span>
+      </li>
+      <li class="teamrow">
+        <span class="teamrow__idx">03</span>
+        <span class="teamrow__name">Saanvi Gupta</span>
+        <span class="teamrow__role">Flutter / mobile · Android · offline implementation · research.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== FINAL CTA + FOOTER (§3.10) ===================== -->
+<section class="section cta" id="cta">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow" style="color:var(--on-asphalt-faint)">Ready</span>
+      <h2 class="cta__h" style="margin-top:16px">Ready when the road isn't.</h2>
+      <p class="cta__sub">Open RAAHAT and turn the next emergency into a clear, calm next step.</p>
+      <div class="cta__btn"><a class="btn btn--primary" href="/app/dashboard">Open App →</a></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span class="footer__brand">🚑 RAAHAT</span>
+    <span>SquidHack 2026 · Team Solution Savvy</span>
+    <span class="footer__links"><a href="#features">Features</a> &nbsp; <a href="#how">How</a> &nbsp; <a href="#team">Team</a></span>
+    <span>Location used only to find nearby assistance.</span>
+  </div>
+</footer>
+
+<!-- Confirm modal -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal__label">Confirm action</div>
+    <h3 class="modal__title" id="modalTitle">Confirm</h3>
+    <p class="modal__body" id="modalBody">Continue?</p>
+    <div class="modal__actions">
+      <button class="btn btn--ghost btn--block" id="modalCancel">Cancel</button>
+      <button class="btn btn--primary btn--block" id="modalConfirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>

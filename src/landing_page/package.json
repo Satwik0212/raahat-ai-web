@@ -1,0 +1,13 @@
+{
+  "name": "raahat-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RAAHAT — AI-Powered Roadside Emergency & Assistance Navigator. Landing page (SquidHack 2026, Problem SW-17, Team Solution Savvy).",
+  "scripts": {
+    "build": "node scripts/validate.js",
+    "start": "node -e \"console.log('Run the server from the repo root:  python3 ../../server/server.py')\"",
+    "serve": "python3 ../../server/server.py"
+  },
+  "keywords": ["raahat", "emergency", "roadside-assistance", "squidhack", "SW-17"],
+  "license": "MIT"
+}
